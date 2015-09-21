@@ -1,2 +1,2 @@
 
-#query= select * from tbleCourses WHERE fldCourseNumber="148" and fldDepartment="CS";
+#query= SELECT * FROM tbleCourses WHERE fldCourseNumber="148" AND fldDepartment="CS";

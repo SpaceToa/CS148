@@ -1,3 +1,3 @@
 
-$query= select fldDepartment from tblCourses WWHERE fldCourseName like "Introduction%";
+$query= SELECT fldDepartment FROM tblCourses WHERE fldCourseName LIKE "Introduction%";
 
