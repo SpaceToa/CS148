@@ -1,1 +1,2 @@
-
+/*q10 - Repeat the above query for Friday (44) - Compare the Kalkin building for Wednesday and Friday. How would you verify the results and explain why?*/
+$query = SELECT fldBuilding, COUNT(fldNumSTudents) FROM tblSections WHERE fldDays LIKE '%F%' GROUP BY fldBuilding DESC;

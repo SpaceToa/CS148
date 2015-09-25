@@ -18,49 +18,20 @@ function securityCheck($path_parts, $yourURL, $form = false) {
     
     // add all your page names to this array
     $whiteListPages = array();
-    
-    $whiteListPages[] = "submit.php";
-    $whiteListPages[] = "index.php";
     $whiteListPages[] = "tables.php";
-    $whiteListPages[] = "select.php";
-    
-    $whiteListPages[] = "q01.php";
-    $whiteListPages[] = "q02.php";
-    $whiteListPages[] = "q03.php";
-    $whiteListPages[] = "q04.php";
-    $whiteListPages[] = "q05.php";
-    $whiteListPages[] = "q06.php";
-    $whiteListPages[] = "q07.php";
-    $whiteListPages[] = "q08.php";
-    $whiteListPages[] = "q09.php";
-    $whiteListPages[] = "q10.php";
-    $whiteListPages[] = "q11.php";
-    $whiteListPages[] = "q12.php";
-    
-    $whiteListPages[] = "q01.sql";
-    $whiteListPages[] = "q02.sql";
-    $whiteListPages[] = "q03.sql";
-    $whiteListPages[] = "q04.sql";
-    $whiteListPages[] = "q05.sql";
-    $whiteListPages[] = "q06.sql";
-    $whiteListPages[] = "q07.sql";
-    $whiteListPages[] = "q08.sql";
-    $whiteListPages[] = "q09.sql";
-    $whiteListPages[] = "q10.sql";
-    $whiteListPages[] = "q11.sql";
-    $whiteListPages[] = "q12.sql";
-    
+    $whiteListPages[] = "index.php";
+    $whiteListPages[] = "populate-table.php";
+    $whiteListPages[] = "populate-enrolled.php";
+
     //add all the folders to this array
     $whiteListFolders = array();
     $whiteListFolders[] = "/cs148";
-    $whiteListFolders[] = "/cs148/assignment2.0";
-    $whiteListFolders[] = "/cs148/assignment2.0/sqlQs";
+    $whiteListFolders[] = "/cs148/assignment1.0";
+    $whiteListFolders[] = "/cs148/assignment1.1";
     
     $whiteListFolders[] = "/cs148develop";
     $whiteListFolders[] = "/cs148develop/assignment1.0";
-    $whiteListFolders[] = "/cs148develop/assignment2.0";
-    $whiteListFolders[] = "/cs148develop/assignment2.0/sqlQs";
-    
+    $whiteListFolders[] = "/cs148develop/assignment1.1";
     
 
     // Check for valid page name

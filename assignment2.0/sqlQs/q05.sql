@@ -1,1 +1,2 @@
 /*q05 - Display the first and last name of teachers whose Net ID begins with the letter 'r' and ends in the letter "o". (__)*/
+$query = SELECT fldFirstName fldLastName FROM tblTeachers WHERE pmkNetId LIKE "r%" AND pmkNetId LIKE "%o";

@@ -1,1 +1,2 @@
-
+/*q09 - Display each building name and the number of students in it on Wednesday, sorted by the number of students descending (51)*/
+$query= SELECT fldBuilding, COUNT(fldNumSTudents) FROM tblSections WHERE fldDays LIKE '%W%' GROUP BY fldBuilding DESC;

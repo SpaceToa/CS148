@@ -1,3 +1,3 @@
 
 
-$query= select pmkNetId from tblTeachers
+$query= SELECT pmkNetId FROM tblTeachers;

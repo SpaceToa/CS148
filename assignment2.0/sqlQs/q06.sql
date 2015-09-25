@@ -1,1 +1,2 @@
 /*q06 - Display every course name with the word "data" in it that is not in the CS department (___)*/
+$query = SELECT fldCourseName FROM tblCourses WHERE fldCourseName LIKE "%data%" AND fldDepartment!="CS"; 

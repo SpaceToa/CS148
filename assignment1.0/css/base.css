@@ -6,7 +6,7 @@
 /*------------------------   standard elements  ----------------------------- */
 body{
     margin: 0 5% 0 5%;
-    background-color: #FFC670;
+    background-color: #B4FF6A;
 }
 article{
     padding: 2em;
@@ -19,7 +19,6 @@ figcaption {
 
 header{
     overflow: auto; /* forces header to fit to figure */
-    float: right;
 }
 
 header .float_left{
@@ -41,20 +40,6 @@ section{
     width: 40%;  
 }
 
-li
-{
-    margin: 10px;
-}
-
-p
-{
-    font-size: 20px;
-}
-
-td
-{
-    margin: 5px;
-}
 /*------------------------   classes           ------------------------------ */
 .float_left {
     border: thin solid darkslategray;
