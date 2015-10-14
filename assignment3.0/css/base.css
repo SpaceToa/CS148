@@ -6,7 +6,7 @@
 /*------------------------   standard elements  ----------------------------- */
 body{
     margin: 0 5% 0 5%;
-    background-color: #B4FF6A;
+    background-color: #FFC670;
 }
 article{
     padding: 2em;
@@ -19,6 +19,7 @@ figcaption {
 
 header{
     overflow: auto; /* forces header to fit to figure */
+    float: right;
 }
 
 header .float_left{
@@ -40,6 +41,20 @@ section{
     width: 40%;  
 }
 
+li
+{
+    margin: 10px;
+}
+
+p
+{
+    font-size: 20px;
+}
+
+td
+{
+    margin: 5px;
+}
 /*------------------------   classes           ------------------------------ */
 .float_left {
     border: thin solid darkslategray;
@@ -93,22 +108,11 @@ nav ol li{
 }
 
 #table td {
-    border: thin #FFFFFF solid;
+    border: thin #000080 solid;
     border-collapse: collapse;
-    padding: 10px;
 }
 
 #table th{
     text-align: left;
 }
 
-td{
-    border: thin #FFFFFF solid;
-    border-collapse: collapse;
-    padding: 10px;
-}
-
-tr:hover{
-    background-color: #ff9933;
-    border: thin #FF0000 solid;
-}

@@ -1,0 +1,1 @@
+SELECT DISTINCT fldCourseName FROM tblCourses, tblEnrolls WHERE tblEnrolls.fldGrade = 100 AND pmkCourseId = fnkCourseId ORDER BY fldCourseName
