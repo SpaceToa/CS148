@@ -3,8 +3,14 @@
 
     print '<table>';
     $columns = 8;
+    
+      
+    $limit = $_GET[setLimit];       
+    $offset = $_GET[setOffset];       
+   
     //now print out each record
-    $query = 'SELECT fldFirstName, fldLastName, pmkStudentId, fldStreetAddress, fldCity, fldState, fldZip, fldGender FROM tblStudents ORDER BY fldLastName, fldFirstName LIMIT 10 OFFSET 1000';
+    $query = 'SELECT fldFirstName, fldLastName, pmkStudentId, fldStreetAddress, fldCity, fldState, fldZip, fldGender FROM tblStudents ORDER BY fldLastName, fldFirstName LIMIT ' . $limit . ' OFFSET '. $offset .' ';
+    //$query = 'SELECT fldFirstName, fldLastName, pmkStudentId, fldStreetAddress, fldCity, fldState, fldZip, fldGender FROM tblStudents ORDER BY fldLastName, fldFirstName LIMIT 10 OFFSET 1000';
     $info2 = $thisDatabaseReader->select($query, "",0, 1, 0, 0, false, false);
     
     

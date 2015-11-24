@@ -1,0 +1,220 @@
+/*http://paletton.com/#uid=33G0Q0kwi++bu++hX++++rd++kX color scheme*/
+
+body{
+    background-color:#777777;
+    color: #000;
+}
+fieldset{
+    height:10%;
+    width:80%;
+}
+.buttons{
+    height:2em;
+    width:13em;
+}
+header{
+    background-color: #3D3D3D;
+    text-align: center;
+    margin: 0px;
+    margin-bottom: 2em;
+    border-radius: 15px;
+    -webkit-transition: box-shadow linear .5s;
+    transition: box-shadow linear .5s;
+
+}
+h2{
+    border: thin solid #8AE68A;
+    background: #3D3D3D;
+    border-radius: 2px;
+    color:#8AE68A; 
+    display:inline-block;
+    padding:3px;    
+}
+
+header:hover{
+    box-shadow: 0 0 30px #8AE68A;
+}
+
+input[type="text"], textarea {
+
+    background-color : #474747; 
+    color: #8AE68A; 
+    border: thin outset #777777;
+    margin-top:2em;
+    margin-right:2em;
+
+}
+
+nav{
+    border: thin solid #8AE68A;
+    background: #3D3D3D;
+    border-radius: 2px;
+    color:#8AE68A;
+    margin:2em;
+    width: 11em;
+    float: left;
+
+}
+nav ul{
+    display: inline-block;
+    text-decoration: none;
+}
+p{
+    width:90%;
+    color: #ddd;
+
+
+}
+
+#system{
+    background-color : #3D3D3D; 
+    color: #8AE68A; 
+    margin-right:2em;
+}
+.navButton{
+
+    border: thin solid #000;
+    border-radius: 5px;
+    color: #8AE68A; 
+    list-style: none;
+    margin-bottom: .5em;
+    padding: .5em;
+    text-align:center;
+    -webkit-transition: box-shadow linear .5s;
+    transition: box-shadow linear .5s;
+}
+.navButton:hover{
+    box-shadow: 0 0 5px #8AE68A;
+}
+.navButton a{
+    color: #8AE68A; 
+}
+
+.filter{
+    background-color: #3D3D3D;
+    color: #ddd;
+    display: inline;
+    margin: 1em;
+    padding: 1em;
+    border: thin solid #8AE68A;
+    text-decoration: none;
+
+}
+
+
+body.home li#navHome, body.events li#navEvents, body.giveaway li#navGiveaway, body.submit li#navSubmit{
+
+    background-color:#777777;
+}
+
+
+
+#home > aside {
+    margin: 2em;
+}
+
+#feed{ 
+    background-color: #3D3D3D;
+    margin:1em;
+    postion:fixed;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    width:80%;
+    height:75%;
+}
+#feed aside{
+    padding: 1em;
+    display: inline-block;
+    color:#8AE68A;
+    width:100%;
+    border-bottom: solid thick #8AE68A;
+}
+
+.game,.system,.account,.name{
+    color:#8AE68A;
+    font-size:large;
+    text-align:center;
+    display: inline;
+    border: thin solid #8AE68A;
+    margin: 1em;
+    padding: .5em;
+}
+
+.description{
+    font-size:medium;
+    padding-left:1em;
+
+}
+
+.subtime{
+    font-size:medium;
+
+}
+
+
+#txtDescription{
+
+    line-height:32px;
+    width: 60%;
+}
+
+fieldset{
+    border: thin solid #8AE68A;
+    background-color: #3D3D3D;
+    color:#8AE68A;
+    margin:1em;
+}
+#pc,#360,#xbone,#ps3,#ps4,#3ds,#wiiu{
+    -webkit-transition: box-shadow linear .5s;
+    transition: box-shadow linear .5s;
+}
+#pc:hover{
+    box-shadow: 0 0 10px #FFCC00;
+}
+#x360:hover{
+    box-shadow: 0 0 10px #6EB825;
+
+}
+#xbone:hover{
+    box-shadow: 0 0 10px #005C00;
+
+}
+#ps3:hover{
+    box-shadow: 0 0 10px #0066FF;
+
+}
+#ps4:hover{
+    box-shadow: 0 0 10px #0000B2;
+
+}
+#n3ds:hover{
+    box-shadow: 0 0 10px #FF0000;
+
+}
+#wiiu:hover{
+    box-shadow: 0 0 10px #EEEEEE;
+
+}
+
+section#feed.filterPC aside:not(.PC){
+    display: none;
+}
+
+section#feed.filterXbox360 aside:not(.Xbox-360){
+    display: none;
+}
+section#feed.filterXboxOne aside:not(.Xbox-One){
+    display: none;
+}
+section#feed.filterPS3 aside:not(.PS3){
+    display: none;
+}
+section#feed.filterpS4 aside:not(.PS4){
+    display: none;
+}
+section#feed.filter3DS aside:not(.Nintendo-3DS){
+    display: none;
+}
+section#feed.filterWiiU aside:not(.WiiU){
+    display: none;
+}

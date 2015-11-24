@@ -8,6 +8,13 @@
         <title>cs148 Sitemap</title>
     </head>
     <body>
+        <h1>Final Project</h1>
+        <p><a href="assignment10/home.php">home.php </a></p>
+        
+        <h1>Advising Project</h1>
+        <p><a href="advising/tables.php">tables.php </a></p>
+        
+        
         <h1>Assignment 3.0</h1>
         <p><a href="assignment3.0/join.php">join.php</a></p>
         <p><a href="assignment3.0/css/base.css">base.css</a></p>
