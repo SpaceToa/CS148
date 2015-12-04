@@ -22,3 +22,24 @@ function sanitize($string, $spacesAllowed = true, $semiColonAllowed = true) {
 
     return $string;
 }
+
+
+function checkUser($username)
+{
+    $columns = 3;
+    $query = "SELECT pmkNetID, fldConfirmed, fldAdmin FROM tblUser WHERE pmkNetID = ?";
+    //$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
+    //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
+    $entries = $thisDatabase->select($query, array($username), 1, 0, 0, 0, false, false);
+    
+    if ($entries = '') 
+    {
+        print 'did not find the user';
+    }
+    
+    else  
+    {
+        print 'found the user';
+    }
+    
+}

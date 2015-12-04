@@ -5,11 +5,13 @@ require_once('lib/custom-functions.php');
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>UVM class listing</title>
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="shortcut icon" href="favicon.ico" /> 
+        <title>Bored Gamers Board</title>
         <meta charset="utf-8">
-        <meta name="author" content="Andy Green">
-        <meta name="description" content="SQL generated table of UVM classes offered">
-
+        <meta name="author" content="Andy Green, Chris Mahmood">
+        <meta name="description" content="A site to connect with other gamers and play">
+        <link rel="stylesheet" href="base.css" media="screen">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!--[if lt IE 9]>

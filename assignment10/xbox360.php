@@ -1,46 +1,6 @@
 <?php
 include "top.php";
 $tableName = "";
-
-$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
-
-    $columns = 3;
-    $queryTest = "SELECT pmkNetID, fldConfirmed, fldAdmin FROM tblUser WHERE pmkNetID = ?";
-    //$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
-    //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
-    $entriesTest = $thisDatabaseReader->select($queryTest, array($username), 1, 0, 0, 0, false, false);
-    
-    if ( empty($entriesTest) == TRUE) 
-    {
-        //print 'did not find the user';
-        try 
-        {   
-            $thisDatabaseWriter->db->beginTransaction();
-        
-            $data[] = $username;
-
-            $query = 'INSERT INTO tblUser SET ';
-            $query .= 'pmkNetID = ?, ';
-            $query .= 'fldConfirmed = 1, ';
-            $query .= 'fldAdmin = 0 ';
-
-            $results = $thisDatabaseWriter->insert($query, $data);
-            $primaryKey = $thisDatabaseWriter->lastInsert();
-            $dataEntered = $thisDatabaseWriter->db->commit();
-
-            print 'registered';
-        
-        }
-        catch (PDOExecption $e) 
-        {
-            $thisDatabase->db->rollback();
-        }
-    }
-    
-    else  
-    {
-        print'Welcom Back';
-    }
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
@@ -66,10 +26,10 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 print'<aside>';
     
     $columns = 7;
-    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries ORDER BY pmkDisplayOrder ";
+    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries WHERE fldSystem = 'XBOX360' ORDER BY pmkDisplayOrder ";
     
-    //$entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
-    $entries = $thisDatabaseReader->select($query, "", 0, 1, 0, 0, false, false);
+    //$entries = $thisDatabaseReader->testquery($query, "", 1, 1, 2, 0, false, false);
+    $entries = $thisDatabaseReader->select($query, "", 1, 1, 2, 0, false, false);
     $highlight = 0; // used to highlight alternate rows
 //    print '<p>';
 //    print 'SQL:';

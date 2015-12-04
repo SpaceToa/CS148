@@ -23,7 +23,15 @@ function securityCheck($path_parts, $yourURL, $form = false) {
     $whiteListPages[] = "populate-table.php";
     $whiteListPages[] = "populate-enrolled.php";
     $whiteListPages[] = "home.php";
-
+    $whiteListPages[] = "pc.php";
+    $whiteListPages[] = "xbox360.php";
+    $whiteListPages[] = "xboxone.php";
+    $whiteListPages[] = "ps3.php";
+    $whiteListPages[] = "ps4.php";
+    $whiteListPages[] = "n3ds.php";
+    $whiteListPages[] = "wiiu.php";
+    $whiteListPages[] = "submit.php";
+    
     //add all the folders to this array
     $whiteListFolders = array();
     $whiteListFolders[] = "/cs148";

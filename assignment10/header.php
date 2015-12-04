@@ -1,8 +1,9 @@
 <!-- %%%%%%%%%%%%%%%%%%%%%%     Page header   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
-<header>
-    <h1>Board Gamers Board</h1>
-    <h2>it happeds</h2>
+ <header>
+        <a href="home.php">
+        <img src="logo.png" alt="logo" />
+        </a>
 </header>
 
 <!-- %%%%%%%%%%%%%%%%%%%%% Ends Page header   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
