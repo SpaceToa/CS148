@@ -31,6 +31,7 @@ function securityCheck($path_parts, $yourURL, $form = false) {
     $whiteListPages[] = "n3ds.php";
     $whiteListPages[] = "wiiu.php";
     $whiteListPages[] = "submit.php";
+    $whiteListPages[] = "events.php";
     
     //add all the folders to this array
     $whiteListFolders = array();

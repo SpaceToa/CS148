@@ -52,6 +52,9 @@
             <p><a href="assignment1.0/index.php">index.php</a></p>
             <p><a href="assignment1.0/css/base.css">base.css</a></p>
             <p><a href="assignment1.0/tables.php">tables.php</a></p>
+            
+        <h1>Other</h1>
+            <p><a href="tryme.php">tryme.php</a></p>
 
     <footer>
         <p>Created by Andy Green</p>

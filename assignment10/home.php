@@ -10,6 +10,7 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
     //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
     $entriesTest = $thisDatabaseReader->select($queryTest, array($username), 1, 0, 0, 0, false, false);
     
+    // Adding a first time visitor to tblEntries
     if ( empty($entriesTest) == TRUE) 
     {
         //print 'did not find the user';
@@ -66,11 +67,10 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 print'<aside>';
     
     $columns = 7;
-    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries ORDER BY pmkDisplayOrder ";
+    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries ORDER BY pmkID DESC";
     
     //$entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 0, 1, 0, 0, false, false);
-    $highlight = 0; // used to highlight alternate rows
 //    print '<p>';
 //    print 'SQL:';
 //    print  $query;
