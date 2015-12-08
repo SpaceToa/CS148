@@ -25,8 +25,8 @@ $tableName = "";
 
 print'<aside>';
     
-    $columns = 7;
-    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries WHERE fldSystem = 'PC' ORDER BY pmkDisplayOrder ";
+    $columns = 10;
+    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldType` FROM `tblEntries` WHERE fldSystem = 'PC' ORDER BY pmkID ";
     
     //$entries = $thisDatabaseReader->testquery($query, "", 1, 1, 2, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 1, 1, 2, 0, false, false);
@@ -41,18 +41,50 @@ print'<aside>';
 //    print'<table>';
 
     
-    foreach ($entries as $entrie) {
+      foreach ($entries as $entrie) {
         print"<aside class='$entrie[fldSystem]'>"
         . "<p class='game'>Game: $entrie[fldGameName]</p> <p class='system'>System: $entrie[fldSystem]</p>"
-        . "<p class='account'>Account: $entrie[fldAccount]</p> <p class='name'>Name: $entrie[fldName]</p>"
-        . "<p class='description'>$entrie[fldDescription]</p>"
+        . "<p class='account'>Account: $entrie[fldAccount]</p> <p class='name'>Name: $entrie[fldName]</p>";
+        
+        
+        print "<p class='meet'>"; 
+        if($entrie['fldMeetUp']==0)
+            {
+                print 'Meet Up: Online';
+            }
+        else
+            {
+                print 'Meet Up: Online';
+            }
+            
+            print "<p class='meet'>"; 
+            
+        if($entrie['fldMic']==0)
+            {
+                print 'Will mic chat';
+            }
+        else
+            {
+                print 'Does not have a mic';
+            }
+        
+        
+        print "<pre class='type'>" ;   
+        print "<p class='type'>Interested play styles: <br>";
+        print_r  ($entrie['fldType']);
+        print '</p>';   
+        print '</pre>';   
+        
+       
+        
+            
+        print "<p class='description'>$entrie[fldDescription]</p>"
         . "<p class='subTime'>$entrie[fldTime]</p>"
         . "<p class='subDate'>$entrie[fldDate]</p>"
         . "</aside>";
         
     }
     // all done
-    print '</table>';
     print '</aside>';
 
 include "footer.php";

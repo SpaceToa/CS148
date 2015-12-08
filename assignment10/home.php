@@ -27,6 +27,11 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
             $results = $thisDatabaseWriter->insert($query, $data);
             $primaryKey = $thisDatabaseWriter->lastInsert();
+            //
+            //
+            print "<p>pmk= " . $primaryKey;
+            //
+            //
             $dataEntered = $thisDatabaseWriter->db->commit();
 
             print 'registered';
@@ -40,7 +45,7 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
     
     else  
     {
-        print'Welcom Back';
+        //print'Welcom Back';
     }
 ?>
 
@@ -66,8 +71,8 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 print'<aside>';
     
-    $columns = 7;
-    $query = "SELECT fldGameName, fldSystem, fldAccount, fldName, fldDescription, fldDate, fldTime FROM tblEntries ORDER BY pmkID DESC";
+    $columns = 10;
+    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldType` FROM `tblEntries` ORDER BY pmkID DESC";
     
     //$entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 0, 1, 0, 0, false, false);
@@ -84,15 +89,47 @@ print'<aside>';
     foreach ($entries as $entrie) {
         print"<aside class='$entrie[fldSystem]'>"
         . "<p class='game'>Game: $entrie[fldGameName]</p> <p class='system'>System: $entrie[fldSystem]</p>"
-        . "<p class='account'>Account: $entrie[fldAccount]</p> <p class='name'>Name: $entrie[fldName]</p>"
-        . "<p class='description'>$entrie[fldDescription]</p>"
+        . "<p class='account'>Account: $entrie[fldAccount]</p> <p class='name'>Name: $entrie[fldName]</p>";
+        
+        
+        print "<p class='meet'>"; 
+        if($entrie['fldMeetUp']==0)
+            {
+                print 'Meet Up: Online';
+            }
+        else
+            {
+                print 'Meet Up: Online';
+            }
+            
+            print "<p class='meet'>"; 
+            
+        if($entrie['fldMic']==0)
+            {
+                print 'Will mic chat';
+            }
+        else
+            {
+                print 'Does not have a mic';
+            }
+        
+        
+        print "<pre class='type'>" ;   
+        print "<p class='type'>Interested play styles: <br>";
+        print_r  ($entrie['fldType']);
+        print '</p>';   
+        print '</pre>';   
+        
+       
+        
+            
+        print "<p class='description'>$entrie[fldDescription]</p>"
         . "<p class='subTime'>$entrie[fldTime]</p>"
         . "<p class='subDate'>$entrie[fldDate]</p>"
         . "</aside>";
         
     }
     // all done
-    print '</table>';
     print '</aside>';
 
 include "footer.php";

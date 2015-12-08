@@ -1,4 +1,9 @@
 <?php
+include "top.php";
+
+$debug =true;
+
+$netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 $update = 0;
 
@@ -7,6 +12,10 @@ $account="";
 $system="";
 $game="";
 $description="";
+$email = $netID . "@uvm.edu";
+$meet = 0;
+$mic = 0;
+$type = "Casual";
 
 $nameERROR="";
 $accountERROR="";
@@ -17,58 +26,151 @@ $descriptionERROR="";
 $errorMsg = array();
 $data = array();
 $dataEntered = false; 
-if (isset($_POST["btnSubmit"])) 
+
+if($debug)
 {
+    print'debug is on' . '</br>';
+}
+
+if (isset($_POST["btnSubmit"])) {
     
-    $name = htmlentities($_GET["txtName"],ENT_QUOTES,"UTF-8");
-    $account=htmlentities($_GET["txtAccount"],ENT_QUOTES,"UTF-8");
-    $system=htmlentities($_GET["system"],ENT_QUOTES,"UTF-8");
-    $game=htmlentities($_GET["txtGame"],ENT_QUOTES,"UTF-8");
-    $description=htmlentities($_GET["txtDescription"],ENT_QUOTES,"UTF-8");
+    if($debug)
+{
+    print'submit button pressed' . '</br>';
+}
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+// SECTION: 2a Security
+//
+    /*    if (!securityCheck(true)) {
+      $msg = "<p>Sorry you cannot access this page. ";
+      $msg.= "Security breach detected and reported</p>";
+      die($msg);
+      }
+     */
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+// SECTION: 2b Sanitize (clean) data
+// remove any potential JavaScript or html code from users input on the
+// form. Note it is best to follow the same order as declared in section 1c.
+//    $pmkPoetId = (int) htmlentities($_POST["hidPoetId"], ENT_QUOTES, "UTF-8");
+//    if ($pmkPoetId > 0) {
+//        $update = true;
+//    }
+    // I am not putting the ID in the $data array at this time
+
+    $game = htmlentities($_POST["txtGame"], ENT_QUOTES, "UTF-8");
+    $data[] = $game;
+
+    $system = htmlentities($_POST["system"], ENT_QUOTES, "UTF-8");
+    $data[] = $system;
     
+    $account = htmlentities($_POST["txtAccount"], ENT_QUOTES, "UTF-8");
+    $data[] = $account;
+    
+    $name = htmlentities($_POST["txtName"], ENT_QUOTES, "UTF-8");
+    $data[] = $name;
+    
+    $description = htmlentities($_POST["txtDescription"], ENT_QUOTES, "UTF-8");
+    $data[] = $description;
+    
+    $date = date('m/d/Y', time());
+    $data[] = $date;
+    
+    $timeSubmit = date('H:i:s', time()); 
+    $data[] = $timeSubmit;
+    
+    
+    $data[] = $netID;
+    
+    if($debug)
+{
+    print "has NOT been sanitized". '</br>';
+    print $name;
+    print $account;
+    print $system;
+    print $game;
+    print $description;
+    print $date;
+    print $timeSubmit;
+    print $netID . '</br>';
+}
+    
+   print '<section>';
+    print_r($data);
+   print '</section>';
+    
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+// SECTION: 2c Validation
+//
+
     if ($name == "") {
         $errorMsg[] = "Please enter your first name";
         $nameERROR = true;
     } elseif (!verifyAlphaNum($name)) {
-        $errorMsg[] = "Your first name appears to have extra character.";
+        $errorMsg[] = "Your name appears to have extra character.";
         $nameERROR = true;
     }
     
-    if ($account == "") {
-        $errorMsg[] = "Please enter your name";
-        $accountERROR = true;
-    } elseif (!verifyAlphaNum($account)) {
-        $errorMsg[] = "Your account appears to have extra character.";
-        $accountERROR = true;
-    }
-
     if ($game == "") {
-        $errorMsg[] = "Please enter your game name";
+        $errorMsg[] = "Please enter your games name";
         $gameERROR = true;
     } elseif (!verifyAlphaNum($game)) {
-        $errorMsg[] = "Your game name appears to have extra character.";
+        $errorMsg[] = "Your games name appears to have extra character.";
         $gameERROR = true;
     }
-    
-        if ($description == "") {
-        $errorMsg[] = "Please enter a description";
-        $descriptionERROR = true;
-    } elseif (!verifyAlphaNum($descriptionERROR)) {
-        $errorMsg[] = "Your description appears to have extra character.";
-        $descriptionERROR = true;
+
+    if ($account == "") {
+        $errorMsg[] = "Please enter your account name";
+        $accountERROR = true;
+    } elseif (!verifyAlphaNum($account)) {
+        $errorMsg[] = "Your account name appears to have extra character.";
+        $accountERROR = true;
     }
     
-//get date and current time
-    date_default_timezone_set(America/New_York);
-    $date = date('m/d/Y', time());
-    $timeSubmit = date('H:i:s', time()); 
+    if ($description == "") {
+        $errorMsg[] = "Please enter a description";
+        $descriptionERROR = true;
+    } elseif (!verifyAlphaNum($description)) {
+        $errorMsg[] = "Your description appears to have extra character.";
+        $description = true;
+    }
 
-//getNetID
-    $netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
+    if($debug)
+{
+    print "HAS been sanitized" . '</br>';
+    print $name;
+    print $account;
+    print $system;
+    print $game;
+    print $description;
+    print $date;
+    print $timeSubmit;
+    print $netID . '</br>';
+}
     
-     $dataEntered = false;
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+// SECTION: 2d Process Form - Passed Validation
+//
+// Process for when the form passes validation (the errorMsg array is empty)
+//
+    if (!$errorMsg) {
+        if ($debug) {
+            print "<p>Form is valid</p>";
+        }
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//
+// SECTION: 2e Save Data
+//
+
+        $dataEntered = false;
         try {
-            $thisDatabase->db->beginTransaction();
+            $thisDatabaseWriter->db->beginTransaction();
 
             if ($update) {
                 $query = 'UPDATE tblEntries SET ';
@@ -84,41 +186,40 @@ if (isset($_POST["btnSubmit"]))
             $query .= 'fldDate = ?, ';
             $query .= 'fldTime = ?, ';
             $query .= 'fnkNetID = ?, ';
-            $query .= 'pmkDisplayOrder = ?, ';
-            
+            //$query .= 'pmkID = ?, ';
 
             if ($update) {
-                $query .= 'WHERE pmkDisplayOrder = ?';
-                $data[] = $pmkPoetId;
-
-                if ($_SERVER["REMOTE_USER"] == 'aegreen') {
+                $query .= 'WHERE pmkID = ?';
+                $data[] = $pmkID;
+         
                     $results = $thisDatabase->update($query, $data, 1, 0, 0, 0, false, false);
-                }
+                
             } else {
-                if ($_SERVER["REMOTE_USER"] == 'aegreen'){
-                    $results = $thisDatabase->insert($query, $data);
-                    $primaryKey = $thisDatabase->lastInsert();
+                
+                    $results = $thisDatabaseWriter->insert($query, $data);
+                    $primaryKey = $thisDatabaseWriter->lastInsert();
                     if ($debug) {
                         print "<p>pmk= " . $primaryKey;
                     }
-                }
+               
             }
 
             // all sql statements are done so lets commit to our changes
             //if($_SERVER["REMOTE_USER"]=='rerickso'){
-            $dataEntered = $thisDatabase->db->commit();
+            $dataEntered = $thisDatabaseWriter->db->commit();
             // }else{
             //     $thisDatabase->db->rollback();
             // }
             if ($debug)
                 print "<p>transaction complete ";
         } catch (PDOExecption $e) {
-            $thisDatabase->db->rollback();
+            $thisDatabaseWriter->db->rollback();
             if ($debug)
                 print "Error!: " . $e->getMessage() . "</br>";
             $errorMsg[] = "There was a problem with accpeting your data please contact us directly.";
         }
-
+    } // end form is valid
+}
         if ($errorMsg) {
             print '<div id="errors">';
             print '<h1>Your form has the following mistakes</h1>';
@@ -131,34 +232,36 @@ if (isset($_POST["btnSubmit"]))
             print '</div>';
         }
         
-}
+
 
 ?>
 
 <html>
-   <?php
-    include('header.php');
-    include('nav.php');
-    ?>
-
-        <form>
+    
+    <form method="post">
             <fieldset>
                 <label for="txtName">Name</label>
                 <input type="text" id="txtName" name="txtName" size="35"
                        <?php if($nameERROR) echo 'class="mistake"'; ?>
                        value="<?php echo $name; ?>" 
                        tabindex="105" maxlength="30" placeholder="enter your name" autofocus onfocus="this.select()" >
+                
+                <label for="txtEmail">Email</label>
+                <input type="text" id="txtEmail" name="txtEmail" size="20"
+                       <?php if($nameERROR) echo 'class="mistake"'; ?>
+                       value="<?php echo $name; ?>" 
+                       tabindex="105" maxlength="30" readonly autofocus onfocus="this.select()" >
 
 
                 <label>System</label>
                 <select id="system" name="system" tabindex="110" size="1">
-                    <option value="PC" <?php if($align =="PC") echo ' selected="selected" ';?>>PC</option>
-                    <option value="PS3" <?php if($align =="PS3") echo ' selected="selected" ';?>>PS3</option>
-                    <option value="Xbox-360" <?php if($align =="Xbox-360") echo ' selected="selected" ';?>>Xbox 360</option>
-                    <option value="PS4" <?php if($align =="PS4") echo ' selected="selected" ';?>>PS4</option>
-                    <option value="Xbox-One" <?php if($align =="Xbox-One") echo ' selected="selected" ';?>>Xbox One</option>
-                    <option value="Nintendo-3DS" <?php if($align =="Nintendo-3DS") echo ' selected="selected" ';?>>Nintendo 3DS</option>
-                    <option value="WiiU" <?php if($align =="WiiU") echo ' selected="selected" ';?>>WiiU</option>
+                    <option value="PC" <?php if($system =="PC") echo ' selected="selected" ';?>>PC</option>
+                    <option value="PS3" <?php if($system =="PS3") echo ' selected="selected" ';?>>PS3</option>
+                    <option value="Xbox-360" <?php if($system =="Xbox-360") echo ' selected="selected" ';?>>Xbox 360</option>
+                    <option value="PS4" <?php if($system =="PS4") echo ' selected="selected" ';?>>PS4</option>
+                    <option value="Xbox-One" <?php if($system =="Xbox-One") echo ' selected="selected" ';?>>Xbox One</option>
+                    <option value="Nintendo-3DS" <?php if($system =="Nintendo-3DS") echo ' selected="selected" ';?>>Nintendo 3DS</option>
+                    <option value="WiiU" <?php if($system =="WiiU") echo ' selected="selected" ';?>>WiiU</option>
                 </select>
 
                 <label for="txtAccount">Account Name</label>
@@ -169,20 +272,37 @@ if (isset($_POST["btnSubmit"]))
 
                 <label for="txtGame">Game</label>
                 <input type="text" id="txtGame" name="txtGame" size="35" 
+                       <?php if($gameERROR) echo 'class="mistake"'; ?>
                        value="<?php echo $game; ?>" 
                        tabindex="120" maxlength="30" placeholder="enter title of game"  onfocus="this.select()" >
+                
+                <label for="radMeetup">Where do you want to meet up:</label>
+                    <input type="radio" name="radMeetup" value="0">Online<br>
+                    <input type="radio" name="radMeetup" value="1">In person<br>
+
+                <label for="radMic">Can/Would you like to voice chat:</label>
+                    <input type="radio" name="radMic" value="0">Yes<br>
+                    <input type="radio" name="radMic" value="1">No<br>
+                    
+                <label for="chkType">Style of play:</label>
+                    <input type="checkbox" name="chkType" value="Competitive">Competitive<br>
+                    <input type="checkbox" name="chkType" value="Casual">Casual<br>     
+                    <input type="checkbox" name="chkType" value="Trolling">Trolling<br>   
+                
                 </fieldset>
-                    <fieldset>
+            
+                <fieldset>
                 <label for="txtDescription">Description</label>
                 <input type="text" id="txtDescription" name="txtDescription" size="200"
                        <?php if($descriptionERROR) echo 'class="mistake"'; ?>
                        value="<?php echo $description; ?>" 
                        tabindex="125" maxlength="200" placeholder="What do you want to do? (max 200 char.)"  onfocus="this.select()" >
-            </fieldset>
+               </fieldset>
+        
             
             <fieldset class="buttons">
                 <legend>Submit or Reset the form</legend>				
-                <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="991" class="button">
+                <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="900" class="button">
 
                 <input type="reset" id="butReset" name="butReset" value="Reset Form" tabindex="993" class="button" onclick="reSetForm()">
             </fieldset>
@@ -194,3 +314,30 @@ if (isset($_POST["btnSubmit"]))
     ?>
 </body>
 </html>
+
+<?php
+/*   $query = 'INSERT INTO tblEntries SET ';
+            }
+
+            $query .= 'fldGameName = ?, ';
+            $query .= 'fldSystem = ?, ';
+            $query .= 'fkdAccount = ?, ';
+            $query .= 'fldName = ?, ';
+            $query .= 'fldDescription = ?, ';
+            $query .= 'fldDate = ?, ';
+            $query .= 'fldTime = ?, ';
+            $query .= 'fnkNetID = ?, ';
+            $query .= 'pmkID = ?, ';
+ * 
+ *  $data[] = $game;
+    $data[] = $system;
+    $data[] = $account;
+    $data[] = $name;
+    $data[] = $description;
+    $data[] = $date;
+    $data[] = $timeSubmit;
+    $data[] = $netID;
+ 
+            
+*/
+?>
