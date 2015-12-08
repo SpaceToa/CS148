@@ -108,7 +108,7 @@ if (isset($_POST["btnSubmit"])) {
     $game = htmlentities($_POST["txtGame"], ENT_QUOTES, "UTF-8");
     $data[] = $game;
 
-    $system = htmlentities($_POST["system"], ENT_QUOTES, "UTF-8");
+    $system = htmlentities($_POST["drpSystem"], ENT_QUOTES, "UTF-8");
     $data[] = $system;
     
     $account = htmlentities($_POST["txtAccount"], ENT_QUOTES, "UTF-8");
@@ -333,6 +333,50 @@ if (isset($_POST["btnSubmit"])) {
             $errorMsg[] = "There was a problem with accpeting your data please contact us directly.";
         }
     } // end form is valid
+    
+    //-----------------------
+    // Create and send Email
+    
+    
+    
+    if (empty($errorMsg)) {   
+        
+        if ($update == 1)
+        {
+            $mailID = (int) htmlentities($_GET["id"], ENT_QUOTES, "UTF-8");
+        }
+        else
+        {
+            $mailID = $primaryKey;
+        }
+        
+        $message = '<h2>The info from your requets</h2>';
+        foreach ($_POST as $key => $value) {
+            $message .= "<p>";
+            $camelCase = preg_split('/(?=[A-Z])/', substr($key, 3));
+            foreach ($camelCase as $one) {
+                $message .= $one . " ";
+            }
+            $message .= " = " . htmlentities($value, ENT_QUOTES, "UTF-8") . "</p>";
+        }
+        $message .= '<p>If you did not edit your post then an Admin likely did for inappropriate words, or what not<br>';
+        $message .= 'if you would like to edit your post <a href = https://aegreen.w3.uvm.edu/cs148/assignment10/submit.php?id=' .$mailID . ' >Click HERE</a>';
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //
+        // SECTION: 2g Mail to user
+        //
+        // Process for mailing a message which contains the forms data
+        // the message was built in section 2f.
+        $to = $email; // the person who filled out the form
+        $cc = "";
+        $bcc = "";
+        $from = "Bored Gamers Board <noreply@boredgamersboard.com>";
+        // subject of mail should make sense to your form
+        $todaysDate = strftime("%x");
+        $subject = "BGB submission " . $todaysDate;
+        $mailed = sendMail($to, $cc, $bcc, $from, $subject, $message);
+    }
+
 }
         if ($errorMsg) {
             print '<div id="errors">';
@@ -346,7 +390,7 @@ if (isset($_POST["btnSubmit"])) {
             print '</div>';
         }
         
-
+        
 
 ?>
 
@@ -367,7 +411,7 @@ if (isset($_POST["btnSubmit"])) {
 
 
                 <label>System</label>
-                <select id="system" name="system" tabindex="110" size="1">
+                <select id="system" name="drpSystem" tabindex="110" size="1">
                     <option value="PC" <?php if($system =="PC") echo ' selected="selected" ';?>>PC</option>
                     <option value="PS3" <?php if($system =="PS3") echo ' selected="selected" ';?>>PS3</option>
                     <option value="Xbox-360" <?php if($system =="Xbox-360") echo ' selected="selected" ';?>>Xbox 360</option>

@@ -76,7 +76,7 @@ print'<aside>';
         . "<p class='eventTime'>$event[fldTime]</p>"
         . "<p class='eventInfo'>$event[fldInfo]</p>"
         . "<form method='post'>"
-        . "<button id='btnSubmit' name='btnSubmit' tabindex='900' value = " . $event[pmkName] . " >Attend event</button>"
+        . "<button id='btnSubmit' name='btnSubmit' tabindex='900' value = '" . $event[pmkName] . "' >Attend event</button>"
         . "</form>"
         . "</aside>";
         
