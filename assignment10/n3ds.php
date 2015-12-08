@@ -1,6 +1,54 @@
 <?php
 include "top.php";
 $tableName = "";
+
+$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
+
+    $columns = 3;
+    $queryUser = "SELECT pmkNetID, fldConfirmed, fldAdmin FROM tblUser WHERE pmkNetID = ?";
+    //$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
+    //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
+    $entriesUser = $thisDatabaseReader->select($queryUser, array($username), 1, 0, 0, 0, false, false);
+    
+    // Adding a first time visitor to tblEntries
+    if ( empty($entriesUser) == TRUE) 
+    {
+        //print 'did not find the user';
+        try 
+        {   
+            $thisDatabaseWriter->db->beginTransaction();
+        
+            $data[] = $username;
+
+            $query = 'INSERT INTO tblUser SET ';
+            $query .= 'pmkNetID = ?, ';
+            $query .= 'fldConfirmed = 1, ';
+            $query .= 'fldAdmin = 0 ';
+
+            $results = $thisDatabaseWriter->insert($query, $data);
+            $primaryKey = $thisDatabaseWriter->lastInsert();
+            //
+            //
+            print "<p>pmk= " . $primaryKey;
+            //
+            //
+            $dataEntered = $thisDatabaseWriter->db->commit();
+
+            print 'registered';
+        
+        }
+        catch (PDOExecption $e) 
+        {
+            $thisDatabase->db->rollback();
+        }
+    }
+    
+    else if($entriesUser[fldAdmin]= 1)  
+    {
+        $admin= 1;
+        print 'welcome back';
+        
+    }
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
@@ -25,8 +73,8 @@ $tableName = "";
 
 print'<aside>';
     
-    $columns = 12;
-   $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` WHERE fldSystem = '3DS' ORDER BY pmkID ";
+    $columns = 13;
+   $query = "SELECT `pmkID`, `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` WHERE fldSystem = '3DS' ORDER BY pmkID ";
     
     //$entries = $thisDatabaseReader->testquery($query, "", 1, 1, 2, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 1, 1, 2, 0, false, false);
@@ -88,15 +136,14 @@ print'<aside>';
         
         print '</p>';   
           
-        
-       
-        
-            
         print "<p class='description'>$entrie[fldDescription]</p>"
         . "<p class='subTime'>$entrie[fldTime]</p>"
-        . "<p class='subDate'>$entrie[fldDate]</p>"
-        . "</aside>";
-        
+        . "<p class='subDate'>$entrie[fldDate]</p>";
+        if ($admin OR $username = $entrie[fnkNetID])
+        {
+            print '<a href="submit.php?id=' . $entrie["pmkID"] . '">[Edit]</a>';
+        }
+        print "</aside>";
     }
     // all done
     print '</aside>';

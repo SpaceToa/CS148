@@ -3,10 +3,44 @@ include "top.php";
 
 $debug =true;
 
+
 $netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 
+if (isset($_GET["id"])) {
+    print 'get ID is working';
+    
+    $pmkID = (int) htmlentities($_GET["id"], ENT_QUOTES, "UTF-8");
+    $update = 1;
+    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`, `fnkNetID`";
+    $query .= 'FROM tblEntries WHERE pmkID = ?';
 
+    $results = $thisDatabaseReader->select($query, array($pmkID), 1, 0, 0, 0, false, false);
+    
+    $name= $results[0]['fldName'];
+    $account = $results[0]['fldAccount'];
+    $system = $results[0]['fldSystem'];
+    $game = $results[0]['fldGameName'];
+    $description = $results[0]['fldDescription'];
+    $email = $results[0] . "@uvm.edu";
+    $meet = $results[0]['fldMeetUp'];
+    $mic = $results[0]['fldMic'];
+    $comp = $results[0]['fldComp'];
+    $cas = $results[0]['fldCas'];
+    $trol = $results[0]['fldTrol'];
+    $netID = $results[0]['fnkNetID'];
+    $email = $results[0]['fnkNetID'] . "@uvm.edu";
+    
+    print $name;
+    print $account;
+    print $system;
+    print $game;
+    print $description;
+    print $netID ;
+    print $results[0]['fnkNetID'] ;
+    print $email . '</br>';
+    }
+else{
 $update = 0;
 
 $name="";
@@ -20,6 +54,7 @@ $mic = 0;
 $comp = 0;
 $cas = 1;
 $trol = 0;
+}
 
 $nameERROR="";
 $accountERROR="";
@@ -91,6 +126,10 @@ if (isset($_POST["btnSubmit"])) {
     $timeSubmit = date('H:i:s', time()); 
     $data[] = $timeSubmit;
     
+    if($update)
+    {
+    $netID = $results[0]['fnkNetID'];    
+    }
     $data[] = $netID;
     
     //Add $meet to $data
@@ -262,7 +301,7 @@ if (isset($_POST["btnSubmit"])) {
                 $query .= 'WHERE pmkID = ?';
                 $data[] = $pmkID;
          
-                    $results = $thisDatabase->update($query, $data, 1, 0, 0, 0, false, false);
+                    $results = $thisDatabaseWriter->update($query, $data, 1, 0, 0, 0, false, false);
                 
             } else {
                 
