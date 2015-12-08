@@ -17,9 +17,9 @@ $description="";
 $email = $netID . "@uvm.edu";
 $meet = 0;
 $mic = 0;
-//$type = array ();
-
-//$type = "Casual";
+$comp = 0;
+$cas = 1;
+$trol = 0;
 
 $nameERROR="";
 $accountERROR="";
@@ -37,6 +37,8 @@ if($debug)
     
     print $netID . '<br>';
     print $email . '<br>';
+    
+   
 }
 
 if (isset($_POST["btnSubmit"])) {
@@ -83,7 +85,7 @@ if (isset($_POST["btnSubmit"])) {
     $description = htmlentities($_POST["txtDescription"], ENT_QUOTES, "UTF-8");
     $data[] = $description;
     
-    $date = date('m/d/Y', time());
+    $date = date('Y-m-d', time());
     $data[] = $date;
     
     $timeSubmit = date('H:i:s', time()); 
@@ -93,30 +95,48 @@ if (isset($_POST["btnSubmit"])) {
     
     //Add $meet to $data
     
-    
-    //Add $type array to $data because it is a SET data type in SQL
-    if(isset($_POST["chkComp"])) {
-        $comp = true;
-        $type[] = "Competitive";
-    }else{
-        $comp  = false;
+    if ($_POST['radMeetup']== 0) 
+    {
+        $meet = 0;
     }
+    else
+    {
+        $meet = 1;
+    }
+    $data[] = $meet ;
+    
+    //Add $mic to $data
+    if ($_POST['radMic']== 0) 
+    {
+        $mic = 0;
+    }
+    else
+    {
+        $mic = 1;
+    }
+    $data[] = $mic ;
+    
+    //Add check box values to $data
+    if(isset($_POST["chkComp"])) {
+        $comp = 1;        
+    }else{
+        $comp  = 0;
+    }
+    $data[] = $comp;
     
     if(isset($_POST["chkCas"])) {
-        $cas = true;
-        $type[] = "Casual";
+        $cas = 1;
     }else{
-        $cas  = false;
+        $cas  = 0;
     }
+    $data[] = $cas;
     
     if(isset($_POST["chkTrol"])) {
-        $trol = true;        
-        $type[] = "Trolling";
+        $trol = 1;        
     }else{
-        $trol  = false;
+        $trol  = 0;
     }
-    
-    $data []= $type[];
+    $data []= $trol;
     
     
     
@@ -134,11 +154,7 @@ if (isset($_POST["btnSubmit"])) {
 //    print $date;
 //    print $timeSubmit;
 //    print $netID . '</br>';
-    
-    print '<section>';
-    print_r($type);
-   print '</section>';
-    
+       
     print '<section>';
     print_r($data);
    print '</section>';
@@ -183,7 +199,7 @@ if (isset($_POST["btnSubmit"])) {
         $description = true;
     }
     
-    if ($comp == flase AND $cas == flase AND $trol == flase ){
+    if ($comp == 0 AND $cas == 0 AND $trol == 0 ){
         $errorMsg[] = "Please pick a play style";       
     }
 
@@ -229,7 +245,7 @@ if (isset($_POST["btnSubmit"])) {
             //$query .= 'pmkID = ?, ';
             $query .= 'fldGameName = ?, ';
             $query .= 'fldSystem = ?, ';
-            $query .= 'fkdAccount = ?, ';
+            $query .= 'fldAccount = ?, ';
             $query .= 'fldName = ?, ';
             $query .= 'fldDescription = ?, ';
             $query .= 'fldDate = ?, ';
@@ -237,7 +253,9 @@ if (isset($_POST["btnSubmit"])) {
             $query .= 'fnkNetID = ?, ';
             $query .= 'fldMeetUp = ?, ';
             $query .= 'fldMic= ?, ';
-            $query .= 'fldType = ?, ';
+            $query .= 'fldComp = ?, ';
+            $query .= 'fldCas = ?, ';
+            $query .= 'fldTrol = ? ';
             
 
             if ($update) {
@@ -263,11 +281,16 @@ if (isset($_POST["btnSubmit"])) {
             //     $thisDatabase->db->rollback();
             // }
             if ($debug)
+            {
                 print "<p>transaction complete ";
+                print $query;
+            }
         } catch (PDOExecption $e) {
             $thisDatabaseWriter->db->rollback();
             if ($debug)
+            {    
                 print "Error!: " . $e->getMessage() . "</br>";
+            }
             $errorMsg[] = "There was a problem with accpeting your data please contact us directly.";
         }
     } // end form is valid
