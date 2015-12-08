@@ -71,8 +71,8 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 print'<aside>';
     
-    $columns = 10;
-    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldType` FROM `tblEntries` ORDER BY pmkID DESC";
+    $columns = 12;
+    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` ORDER BY pmkID DESC";
     
     //$entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 0, 1, 0, 0, false, false);
@@ -114,11 +114,25 @@ print'<aside>';
             }
         
         
-        print "<pre class='type'>" ;   
+         
         print "<p class='type'>Interested play styles: <br>";
-        print_r  ($entrie['fldType']);
+        if($entrie['fldComp']==1)
+            {
+                print 'Competitive <br>';
+            }
+        
+            if($entrie['fldCas']==1)
+            {
+                print 'Casual<br>';
+            }
+      
+            if($entrie['fldTrol']==1)
+            {
+                print 'Trolling <br>';
+            }
+        
         print '</p>';   
-        print '</pre>';   
+          
         
        
         

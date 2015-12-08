@@ -1,6 +1,6 @@
 <!-- ######################     Main Navigation   ########################## -->
 <nav>
-    <ol>
+    <ul>
         <?php
         // This sets the current page to not be a link. Repeat this if block for
         //  each menu item 
@@ -26,7 +26,7 @@
             print '<li><a href="tables.php">Display Tables</a></li>';
         }
         ?>
-    </ol>
+    </ul>
 </nav>
 <!-- #################### Ends Main Navigation    ########################## -->
 

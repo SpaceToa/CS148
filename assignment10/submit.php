@@ -5,6 +5,8 @@ $debug =true;
 
 $netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
+
+
 $update = 0;
 
 $name="";
@@ -15,7 +17,9 @@ $description="";
 $email = $netID . "@uvm.edu";
 $meet = 0;
 $mic = 0;
-$type = "Casual";
+//$type = array ();
+
+//$type = "Casual";
 
 $nameERROR="";
 $accountERROR="";
@@ -30,6 +34,9 @@ $dataEntered = false;
 if($debug)
 {
     print'debug is on' . '</br>';
+    
+    print $netID . '<br>';
+    print $email . '<br>';
 }
 
 if (isset($_POST["btnSubmit"])) {
@@ -82,25 +89,62 @@ if (isset($_POST["btnSubmit"])) {
     $timeSubmit = date('H:i:s', time()); 
     $data[] = $timeSubmit;
     
-    
     $data[] = $netID;
+    
+    //Add $meet to $data
+    
+    
+    //Add $type array to $data because it is a SET data type in SQL
+    if(isset($_POST["chkComp"])) {
+        $comp = true;
+        $type[] = "Competitive";
+    }else{
+        $comp  = false;
+    }
+    
+    if(isset($_POST["chkCas"])) {
+        $cas = true;
+        $type[] = "Casual";
+    }else{
+        $cas  = false;
+    }
+    
+    if(isset($_POST["chkTrol"])) {
+        $trol = true;        
+        $type[] = "Trolling";
+    }else{
+        $trol  = false;
+    }
+    
+    $data []= $type[];
+    
+    
+    
+    
+    
     
     if($debug)
 {
     print "has NOT been sanitized". '</br>';
-    print $name;
-    print $account;
-    print $system;
-    print $game;
-    print $description;
-    print $date;
-    print $timeSubmit;
-    print $netID . '</br>';
-}
+//    print $name;
+//    print $account;
+//    print $system;
+//    print $game;
+//    print $description;
+//    print $date;
+//    print $timeSubmit;
+//    print $netID . '</br>';
     
-   print '<section>';
+    print '<section>';
+    print_r($type);
+   print '</section>';
+    
+    print '<section>';
     print_r($data);
    print '</section>';
+}
+    
+   
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //
@@ -137,6 +181,10 @@ if (isset($_POST["btnSubmit"])) {
     } elseif (!verifyAlphaNum($description)) {
         $errorMsg[] = "Your description appears to have extra character.";
         $description = true;
+    }
+    
+    if ($comp == flase AND $cas == flase AND $trol == flase ){
+        $errorMsg[] = "Please pick a play style";       
     }
 
     if($debug)
@@ -178,6 +226,7 @@ if (isset($_POST["btnSubmit"])) {
                 $query = 'INSERT INTO tblEntries SET ';
             }
 
+            //$query .= 'pmkID = ?, ';
             $query .= 'fldGameName = ?, ';
             $query .= 'fldSystem = ?, ';
             $query .= 'fkdAccount = ?, ';
@@ -186,7 +235,10 @@ if (isset($_POST["btnSubmit"])) {
             $query .= 'fldDate = ?, ';
             $query .= 'fldTime = ?, ';
             $query .= 'fnkNetID = ?, ';
-            //$query .= 'pmkID = ?, ';
+            $query .= 'fldMeetUp = ?, ';
+            $query .= 'fldMic= ?, ';
+            $query .= 'fldType = ?, ';
+            
 
             if ($update) {
                 $query .= 'WHERE pmkID = ?';
@@ -247,9 +299,8 @@ if (isset($_POST["btnSubmit"])) {
                        tabindex="105" maxlength="30" placeholder="enter your name" autofocus onfocus="this.select()" >
                 
                 <label for="txtEmail">Email</label>
-                <input type="text" id="txtEmail" name="txtEmail" size="20"
-                       <?php if($nameERROR) echo 'class="mistake"'; ?>
-                       value="<?php echo $name; ?>" 
+                <input type="text" id="txtEmail" name="txtEmail" size="30"
+                       value="<?php echo $email; ?>" 
                        tabindex="105" maxlength="30" readonly autofocus onfocus="this.select()" >
 
 
@@ -263,6 +314,7 @@ if (isset($_POST["btnSubmit"])) {
                     <option value="Nintendo-3DS" <?php if($system =="Nintendo-3DS") echo ' selected="selected" ';?>>Nintendo 3DS</option>
                     <option value="WiiU" <?php if($system =="WiiU") echo ' selected="selected" ';?>>WiiU</option>
                 </select>
+                <br>
 
                 <label for="txtAccount">Account Name</label>
                 <input type="text" id="txtAccount" name="txtAccount" size="35" 
@@ -275,19 +327,20 @@ if (isset($_POST["btnSubmit"])) {
                        <?php if($gameERROR) echo 'class="mistake"'; ?>
                        value="<?php echo $game; ?>" 
                        tabindex="120" maxlength="30" placeholder="enter title of game"  onfocus="this.select()" >
+                <br>
                 
                 <label for="radMeetup">Where do you want to meet up:</label>
-                    <input type="radio" name="radMeetup" value="0">Online<br>
-                    <input type="radio" name="radMeetup" value="1">In person<br>
+                    <input type="radio" name="radMeetup" value="0" <?php if($meet == 1){} else{print 'checked';} ?> >Online
+                    <input type="radio" name="radMeetup" value="1" <?php if($meet == 1){print 'checked';}?> >In person<br>
 
                 <label for="radMic">Can/Would you like to voice chat:</label>
-                    <input type="radio" name="radMic" value="0">Yes<br>
-                    <input type="radio" name="radMic" value="1">No<br>
+                    <input type="radio" name="radMic" value="0" <?php if($meet == 1){} else{print 'checked';} ?> >Yes
+                    <input type="radio" name="radMic" value="1" <?php if($meet == 1){print 'checked';}?> >No<br>
                     
-                <label for="chkType">Style of play:</label>
-                    <input type="checkbox" name="chkType" value="Competitive">Competitive<br>
-                    <input type="checkbox" name="chkType" value="Casual">Casual<br>     
-                    <input type="checkbox" name="chkType" value="Trolling">Trolling<br>   
+                <label for="chkType">Style of play:</label><br>
+                    <input type="checkbox" name="chkComp"  id="chkComp" value="Competitive" <?php if($comp == 1){print 'checked';}?> >Competitive<br>
+                    <input type="checkbox" name="chkCas" id="chkCas" value="Casual" <?php if($cas == 0){} else{print 'checked';}?> >Casual<br>     
+                    <input type="checkbox" name="chkTrol" id="chkTrol" value="Trolling" <?php if($trol == 1){print 'checked';}?> >Trolling<br>   
                 
                 </fieldset>
             
