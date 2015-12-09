@@ -3,6 +3,11 @@ include "top.php";
 
 $debug =false;
 
+$deleted = (int) htmlentities($_GET["deleted"], ENT_QUOTES, "UTF-8");
+if($deleted)
+{
+    print'Post Deleted';
+}
 
 $netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
@@ -394,8 +399,37 @@ if (isset($_POST["btnSubmit"])) {
             print "</ol>\n";
             print '</div>';
         }
-        
-        
+if (isset($_POST["btnDelete"]))
+{        
+    try 
+        {   
+            $thisDatabaseWriter->db->beginTransaction();
+
+            
+            $pmkID = (int) htmlentities($_GET["id"], ENT_QUOTES, "UTF-8");
+            
+            $data[] = $pmkID;
+
+            $query = "DELETE FROM `tblEntries` WHERE `pmkID` = ?";
+
+            //$entrieDeleted = $thisDatabaseWriter->testquery($query, $data, 1, 0, 0, 0, false, false);
+            $entrieDeleted = $thisDatabaseWriter->delete($query, $data, 1, 0, 0, 0, false, false);
+
+            $dataEntered = $thisDatabaseWriter->db->commit();
+            
+            print 'Deleted';
+            
+            header( 'Location: submit.php?deleted=1' ) ;
+        }
+        catch (PDOExecption $e) 
+            {
+                $thisDatabaseWriter->db->rollback();
+                if ($debug)
+                {
+                    print 'ERROR neede to rollback';
+                }
+            }    
+}
 
 ?>
 
@@ -469,6 +503,14 @@ if (isset($_POST["btnSubmit"])) {
                 <input type="submit" id="btnSubmit" name="btnSubmit" value="Submit" tabindex="900" class="button">
 
                 <input type="reset" id="butReset" name="butReset" value="Reset Form" tabindex="993" class="button" onclick="reSetForm()">
+                
+                <?php
+                    if($update == 1)
+                    {
+                        print "<legend>Delete Entrie</legend>";
+                        print "<button id='btnDelete' name='btnDelete' tabindex='900'>Delete</button>";
+                    }
+                ?>
             </fieldset>
          
         </form>
