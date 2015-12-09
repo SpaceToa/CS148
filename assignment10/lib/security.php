@@ -38,9 +38,11 @@ function securityCheck($path_parts, $yourURL, $form = false) {
     $whiteListFolders = array();
     $whiteListFolders[] = "/cs148";
     $whiteListFolders[] = "/cs148/assignment10";
+    $whiteListFolders[] = "/cs148/assignment10/images";
     
     $whiteListFolders[] = "/cs148develop";
     $whiteListFolders[] = "/cs148develop/assignment10";
+    $whiteListFolders[] = "/cs148develop/assignment10/images";
     
 
     // Check for valid page name

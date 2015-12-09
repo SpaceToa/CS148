@@ -1,7 +1,7 @@
 <?php
 include "top.php";
 
-$debug = true;
+$debug = false;
 
 $dataEntered = false;
 
@@ -211,9 +211,11 @@ if (isset($_POST["btnUnReg"]))
 
 ?>
 
-
+<h2>Upcoming Events </h2>
 
 <?php
+
+
 
 print'<aside>';
     
@@ -235,8 +237,8 @@ print'<aside>';
     
     foreach ($events as $event) {
         unset($dataAtnd);
-        print"<aside>"
-        . "<h2 class = 'eventName'>$event[pmkName]</h2>"
+        print"<aside class='event'>"
+        . "<h3 class = 'eventName'>$event[pmkName]</h3>"
         . "<p class='eventLocation'>$event[fldLocation]</p>"
         . "<p class='eventDate'>$event[fldDate]</p>"
         . "<p class='eventTime'>$event[fldTime]</p>"

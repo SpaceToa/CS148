@@ -80,11 +80,11 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
-        <h2> Current Postings </h2> 
+        <h2 class="posting"> Current Postings </h2> 
 
 
         <!--   Console Filter buttons -->
-        <aside>
+        <aside class="xbone">
             <!--<ol> -->
                 <a href="home.php" class="filter" id="all">All</a>
                 <a href="pc.php" class="filter" id="pc">PC</a>
@@ -99,7 +99,7 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 <?php
 
-print'<aside>';
+print'<aside id = "feedxbone">';
     
     $columns = 13;
     $query = "SELECT `pmkID`, `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` WHERE fldSystem = 'XBOXONE' ORDER BY pmkID DESC";

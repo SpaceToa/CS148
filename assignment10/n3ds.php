@@ -80,12 +80,12 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
-        <h2> Current Postings </h2> 
+        <h2 class="posting"> Current Postings </h2> 
 
 
         <!--   Console Filter buttons -->
-       <aside>
-            <!--<ol> -->
+        <aside class="n3ds">
+           
                 <a href="home.php" class="filter" id="all">All</a>
                 <a href="pc.php" class="filter" id="pc">PC</a>
                 <a href="xbox360.php" class="filter" id="x360">Xbox 360</a>
@@ -94,12 +94,12 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
                 <a href="ps4.php" class="filter" id="ps4">PS4</a>
                 <a href="n3ds.php" class="filter" id="n3ds">Nintendo 3DS</a>
                 <a href="wiiu.php" class="filter" id="wiiu">Wii U</a>
-            <!--</ol> -->
+            
         </aside>
 
 <?php
 
-print'<aside>';
+print'<aside id = "feedn3ds">';
     
     $columns = 13;
    $query = "SELECT `pmkID`, `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` WHERE fldSystem = '3DS' ORDER BY pmkID ";
