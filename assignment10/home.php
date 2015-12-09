@@ -2,16 +2,24 @@
 include "top.php";
 $tableName = "";
 
+$debug = FALSE;
+
+if ($debug)
+{
+    print 'DEBUG is on';
+}
+$admin = 0;
+
 $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
     $columns = 3;
-    $queryTest = "SELECT pmkNetID, fldConfirmed, fldAdmin FROM tblUser WHERE pmkNetID = ?";
+    $queryUser = "SELECT `pmkNetID`, `fldConfirmed`, `fldAdmin` FROM `tblUser` WHERE pmkNetID = ?";
     //$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
-    //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
-    $entriesTest = $thisDatabaseReader->select($queryTest, array($username), 1, 0, 0, 0, false, false);
+    //$entries = $thisDatabaseReader->testquery($query, array($username), 0, 0, 0, 0, false, false);
+    $entriesUser = $thisDatabaseReader->select($queryUser, array($username), 1, 0, 0, 0, false, false);
     
     // Adding a first time visitor to tblEntries
-    if ( empty($entriesTest) == TRUE) 
+    if ( empty($entriesUser) == TRUE) 
     {
         //print 'did not find the user';
         try 
@@ -39,14 +47,36 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
         }
         catch (PDOExecption $e) 
         {
-            $thisDatabase->db->rollback();
+            $thisDatabaseWriter->db->rollback();
         }
     }
     
-    else  
+    else if($entriesUser[0]['fldAdmin'] == 1)  
     {
-        //print'Welcom Back';
+        $admin= 1;
+        print "<section class='logBox'>";
+        print "<h4>Welcome Back</h4>";
+        print "<h5>" .$username . " </h5>";
+        print "<h5>Standing: Admin </h5>";
+        print "</section>";
     }
+    
+    else   
+    {
+        $admin= 0;
+        print "<section class='logBox'>";
+        print "<h4>welcome back</h4>";
+        print "<h5>" .$username . " </h5>";
+        print "</section>";
+    }
+    
+    if ($debug)
+        {
+         print 'User data:';
+         print $entriesUser[0]['pmkNetID'];
+         print $entriesUser[0]['fldConfirmed'];
+         print $entriesUser[0]['fldAdmin'];
+        }
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
@@ -55,26 +85,26 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
         <!--   Console Filter buttons -->
         <aside>
-            <ul>
-                <a href="home.php"><li class="filter" id="all">All</li></a>
-                <a href="pc.php"><li class="filter" id="pc">PC</li></a>
-                <a href="xbox360.php"><li class="filter" id="x360">Xbox 360</li></a>
-                <a href="xboxone.php"><li class="filter" id="xbone">Xbox One</li></a>
-                <a href="ps3.php"><li class="filter" id="ps3">PS3</li></a>
-                <a href="ps4.php"><li class="filter" id="ps4">PS4</li></a>
-                <a href="n3ds.php"><li class="filter" id="n3ds">Nintendo 3DS</li></a>
-                <a href="wiiu.php"><li class="filter" id="wiiu">Wii U</li></a>
-            </ul>
+            <!--<ol> -->
+                <a href="home.php" class="filter" id="all">All</a>
+                <a href="pc.php" class="filter" id="pc">PC</a>
+                <a href="xbox360.php" class="filter" id="x360">Xbox 360</a>
+                <a href="xboxone.php" class="filter" id="xbone">Xbox One</a>
+                <a href="ps3.php" class="filter" id="ps3">PS3</a>
+                <a href="ps4.php" class="filter" id="ps4">PS4</a>
+                <a href="n3ds.php" class="filter" id="n3ds">Nintendo 3DS</a>
+                <a href="wiiu.php" class="filter" id="wiiu">Wii U</a>
+            <!--</ol> -->
         </aside>
 
 <?php
 
 print'<aside>';
     
-    $columns = 12;
-    $query = "SELECT `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` ORDER BY pmkID DESC";
+    $columns = 13;
+    $query = "SELECT `pmkID`, `fldGameName`, `fldSystem`, `fldAccount`, `fldName`, `fldDescription`, `fldDate`, `fldTime`, `fnkNetID`, `fldMeetUp`, `fldMic`, `fldComp`, `fldCas`, `fldTrol`FROM `tblEntries` ORDER BY pmkID DESC";
     
-    //$entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
+//    $entries = $thisDatabaseReader->testquery($query, "", 0, 1, 0, 0, false, false);
     $entries = $thisDatabaseReader->select($query, "", 0, 1, 0, 0, false, false);
 //    print '<p>';
 //    print 'SQL:';
@@ -133,14 +163,26 @@ print'<aside>';
         
         print '</p>';   
           
-        
+        $thisUser = $entrie["fnkNetID"]; 
+       if ($debug)
+       {
+           print $entrie["pmkID"]; 
+           print $entrie["fnkNetID"]; 
        
+       }
         
             
         print "<p class='description'>$entrie[fldDescription]</p>"
         . "<p class='subTime'>$entrie[fldTime]</p>"
-        . "<p class='subDate'>$entrie[fldDate]</p>"
-        . "</aside>";
+        . "<p class='subDate'>$entrie[fldDate]</p>";
+        
+        if ($admin == 1 OR $username == $thisUser)
+        {
+            print '<a href="submit.php?id=' . $entrie["pmkID"] . '">[Edit]</a>';
+           //print '<a href="submit.php?id=' . $entrie["pmkID"] . '">[DELETE]</a>';
+        }
+        
+        print "</aside>";
         
     }
     // all done

@@ -2,12 +2,20 @@
 include "top.php";
 $tableName = "";
 
+$debug = FALSE;
+
+if ($debug)
+{
+    print 'DEBUG is on';
+}
+$admin = 0;
+
 $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
     $columns = 3;
-    $queryUser = "SELECT pmkNetID, fldConfirmed, fldAdmin FROM tblUser WHERE pmkNetID = ?";
+    $queryUser = "SELECT `pmkNetID`, `fldConfirmed`, `fldAdmin` FROM `tblUser` WHERE pmkNetID = ?";
     //$username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
-    //$entries = $thisDatabaseReader->testquery($query, array($username), 1, 0, 0, 0, false, false);
+    //$entries = $thisDatabaseReader->testquery($query, array($username), 0, 0, 0, 0, false, false);
     $entriesUser = $thisDatabaseReader->select($queryUser, array($username), 1, 0, 0, 0, false, false);
     
     // Adding a first time visitor to tblEntries
@@ -39,16 +47,36 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
         }
         catch (PDOExecption $e) 
         {
-            $thisDatabase->db->rollback();
+            $thisDatabaseWriter->db->rollback();
         }
     }
     
-    else if($entriesUser[fldAdmin]= 1)  
+    else if($entriesUser[0]['fldAdmin'] == 1)  
     {
         $admin= 1;
-        print 'welcome back';
-        
+        print "<section class='logBox'>";
+        print "<h4>Welcome Back</h4>";
+        print "<h5>" .$username . " </h5>";
+        print "<h5>Standing: Admin </h5>";
+        print "</section>";
     }
+    
+    else   
+    {
+        $admin= 0;
+        print "<section class='logBox'>";
+        print "<h4>welcome back</h4>";
+        print "<h5>" .$username . " </h5>";
+        print "</section>";
+    }
+    
+    if ($debug)
+        {
+         print 'User data:';
+         print $entriesUser[0]['pmkNetID'];
+         print $entriesUser[0]['fldConfirmed'];
+         print $entriesUser[0]['fldAdmin'];
+        }
 ?>
 
         <p> Welcome to the Burlington Bored Gamers Board! Ever wanted to play some multi-player video games, but you have no one to play with? Now you can post a listing looking for a playgroup, guild, or just a co-op buddy! Browse the latest postings below, filter by your console of choice, or make your own posting!</p>
@@ -56,17 +84,17 @@ $username = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 
         <!--   Console Filter buttons -->
-        <aside>
-            <ul>
-                <a href="home.php"><li class="filter" id="all">All</li></a>
-                <a href="pc.php"><li class="filter" id="pc">PC</li></a>
-                <a href="xbox360.php"><li class="filter" id="x360">Xbox 360</li></a>
-                <a href="xboxone.php"><li class="filter" id="xbone">Xbox One</li></a>
-                <a href="ps3.php"><li class="filter" id="ps3">PS3</li></a>
-                <a href="ps4.php"><li class="filter" id="ps4">PS4</li></a>
-                <a href="n3ds.php"><li class="filter" id="n3ds">Nintendo 3DS</li></a>
-                <a href="wiiu.php"><li class="filter" id="wiiu">Wii U</li></a>
-            </ul>
+       <aside>
+            <!--<ol> -->
+                <a href="home.php" class="filter" id="all">All</a>
+                <a href="pc.php" class="filter" id="pc">PC</a>
+                <a href="xbox360.php" class="filter" id="x360">Xbox 360</a>
+                <a href="xboxone.php" class="filter" id="xbone">Xbox One</a>
+                <a href="ps3.php" class="filter" id="ps3">PS3</a>
+                <a href="ps4.php" class="filter" id="ps4">PS4</a>
+                <a href="n3ds.php" class="filter" id="n3ds">Nintendo 3DS</a>
+                <a href="wiiu.php" class="filter" id="wiiu">Wii U</a>
+            <!--</ol> -->
         </aside>
 
 <?php

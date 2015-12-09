@@ -3,7 +3,6 @@ include "top.php";
 
 $debug =false;
 
-
 $netID = htmlentities($_SERVER["REMOTE_USER"], ENT_QUOTES, "UTF-8");
 
 
@@ -44,32 +43,7 @@ if (isset($_GET["id"])) {
     print $results[0]['fnkNetID'] ;
     print $email . '</br>';
     }
-}else{
-$update = 0;
-
-$name="";
-$account="";
-$system="";
-$game="";
-$description="";
-$email = $netID . "@uvm.edu";
-$meet = 0;
-$mic = 0;
-$comp = 0;
-$cas = 1;
-$trol = 0;
 }
-
-$nameERROR="";
-$accountERROR="";
-$systemERROR="";
-$gameERROR="";
-$descriptionERROR="";
-
-$errorMsg = array();
-$data = array();
-$dataEntered = false; 
-
 if($debug)
 {
     print'debug is on' . '</br>';
@@ -419,11 +393,11 @@ if (isset($_POST["btnSubmit"])) {
                 <select id="system" name="drpSystem" tabindex="110" size="1">
                     <option value="PC" <?php if($system =="PC") echo ' selected="selected" ';?>>PC</option>
                     <option value="PS3" <?php if($system =="PS3") echo ' selected="selected" ';?>>PS3</option>
-                    <option value="XBOX360" <?php if($system =="XBOX360") echo ' selected="selected" ';?>>Xbox 360</option>
+                    <option value="Xbox-360" <?php if($system =="Xbox-360") echo ' selected="selected" ';?>>Xbox 360</option>
                     <option value="PS4" <?php if($system =="PS4") echo ' selected="selected" ';?>>PS4</option>
-                    <option value="XBOXONE" <?php if($system =="XBOXONE") echo ' selected="selected" ';?>>Xbox One</option>
-                    <option value="3DS" <?php if($system =="3DS") echo ' selected="selected" ';?>>Nintendo 3DS</option>
-                    <option value="WIIU" <?php if($system =="WIIU") echo ' selected="selected" ';?>>WiiU</option>
+                    <option value="Xbox-One" <?php if($system =="Xbox-One") echo ' selected="selected" ';?>>Xbox One</option>
+                    <option value="Nintendo-3DS" <?php if($system =="Nintendo-3DS") echo ' selected="selected" ';?>>Nintendo 3DS</option>
+                    <option value="WiiU" <?php if($system =="WiiU") echo ' selected="selected" ';?>>WiiU</option>
                 </select>
                 <br>
 
@@ -437,7 +411,7 @@ if (isset($_POST["btnSubmit"])) {
                 <input type="text" id="txtGame" name="txtGame" size="35" 
                        <?php if($gameERROR) echo 'class="mistake"'; ?>
                        value="<?php echo $game; ?>" 
-                       tabindex="120" maxlength="40" placeholder="enter title of game"  onfocus="this.select()" >
+                       tabindex="120" maxlength="30" placeholder="enter title of game"  onfocus="this.select()" >
                 <br>
                 
                 <label for="radMeetup">Where do you want to meet up:</label>
